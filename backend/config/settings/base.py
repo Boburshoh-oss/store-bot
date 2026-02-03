@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "drf_standardized_errors",
     # my apps
-    # 'apps.managers',
+    "apps.inventory",
 ]
 
 SITE_ID = 1
@@ -232,3 +232,7 @@ SWAGGER_SETTINGS = {
         },
     }
 }
+
+# Telegram Bot
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+ADMIN_TELEGRAM_ID = os.getenv("ADMIN_TELEGRAM_ID")

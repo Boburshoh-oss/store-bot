@@ -24,4 +24,5 @@ RUN chmod +x /code/devops/backend/server-entrypoint.sh
 # RUN chmod +x /code/devops/backend/worker-entrypoint.sh
 RUN chmod +x /code/devops/backend/local-entrypoint.sh
 RUN chmod +x /code/devops/backend/daphne-entrypoint.sh
+RUN chmod +x /code/devops/backend/bot-entrypoint.sh
 # RUN chmod +x /code/devops/backend/flower-entrypoint.sh
