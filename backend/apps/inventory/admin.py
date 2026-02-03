@@ -11,10 +11,14 @@ class WarehouseAdmin(admin.ModelAdmin):
 
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
-    list_display = ['product', 'warehouse', 'quantity', 'min_quantity', 'is_low_stock', 'updated_at']
+    list_display = ['product', 'warehouse', 'quantity', 'min_quantity', 'low_stock_indicator', 'updated_at']
     search_fields = ['product__name', 'warehouse__name']
     list_filter = ['warehouse', 'updated_at']
-    readonly_fields = ['is_low_stock']
+    
+    def low_stock_indicator(self, obj):
+        """Display low stock indicator efficiently"""
+        return '⚠️' if obj.quantity <= obj.min_quantity else '✅'
+    low_stock_indicator.short_description = 'Status'
 
 
 @admin.register(StockMovement)

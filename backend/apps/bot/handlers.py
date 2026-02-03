@@ -112,7 +112,8 @@ async def warehouses_handler(update: Update, context: ContextTypes.DEFAULT_TYPE)
     query = update.callback_query
     await query.answer()
     
-    warehouses = Warehouse.objects.all()
+    from django.db.models import Count
+    warehouses = Warehouse.objects.annotate(stock_count=Count('stocks')).all()
     
     if not warehouses:
         await query.edit_message_text("Omborlar topilmadi / No warehouses found")
@@ -120,11 +121,10 @@ async def warehouses_handler(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     message = "🏢 <b>Omborlar ro'yxati / Warehouses List:</b>\n\n"
     for warehouse in warehouses:
-        stock_count = warehouse.stocks.count()
         message += f"• <b>{warehouse.name}</b>\n"
         if warehouse.location:
             message += f"  Manzil: {warehouse.location}\n"
-        message += f"  Mahsulotlar soni: {stock_count}\n"
+        message += f"  Mahsulotlar soni: {warehouse.stock_count}\n"
         message += "\n"
     
     keyboard = [[InlineKeyboardButton("🔙 Orqaga / Back", callback_data='start')]]

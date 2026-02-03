@@ -59,6 +59,9 @@ class StockMovementViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             stock.quantity -= movement.quantity
+        # TRANSFER is handled separately, typically between two stock records
+        # For now, we don't modify the current stock for TRANSFER type
+        # In a full implementation, you would need source and destination stocks
         
         stock.save()
         
