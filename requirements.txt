@@ -18,3 +18,4 @@ requests
 sentry-sdk[django]
 django-debug-toolbar
 drf-standardized-errors==0.13.0
+python-telegram-bot==21.0
