@@ -1,0 +1,39 @@
+
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./devops/backend/Dockerfile
+    restart: unless-stopped
+    entrypoint: /code/devops/backend/local-entrypoint.sh
+    env_file:
+      - ./.env
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    volumes:
+      - static_volume:/code/backend/staticfiles
+      - media_volume:/code/backend/media
+      - .:/code
+    depends_on:
+      - db
+
+  
+  db:
+    image: postgres:16.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5435:5432"
+
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
