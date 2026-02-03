@@ -1,9 +1,3 @@
-import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
-django.setup()
-
 from django.core.management.base import BaseCommand
 from apps.bot.handlers import run_bot
 

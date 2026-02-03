@@ -5,7 +5,10 @@ import os
 import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
-os.environ.setdefault('SECRET_KEY', 'test-key-12345')
+# Use SECRET_KEY from environment or generate a random one for testing
+if not os.environ.get('SECRET_KEY'):
+    import secrets
+    os.environ['SECRET_KEY'] = secrets.token_urlsafe(50)
 django.setup()
 
 from apps.products.models import Category, Product

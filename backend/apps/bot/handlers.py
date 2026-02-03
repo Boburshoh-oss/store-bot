@@ -85,14 +85,16 @@ async def low_stock_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    stocks = Stock.objects.select_related('product', 'warehouse').all()
-    low_stocks = [stock for stock in stocks if stock.is_low_stock]
+    from django.db.models import F
+    low_stocks = Stock.objects.select_related('product', 'warehouse').filter(
+        quantity__lte=F('min_quantity')
+    )[:10]
     
     if not low_stocks:
         message = "✅ Kam qoldiqlar yo'q / No low stock items"
     else:
         message = "⚠️ <b>Kam qoldiqlar / Low Stock Items:</b>\n\n"
-        for stock in low_stocks[:10]:
+        for stock in low_stocks:
             message += f"• <b>{stock.product.name}</b>\n"
             message += f"  Ombor: {stock.warehouse.name}\n"
             message += f"  Hozirgi miqdor: {stock.quantity}\n"

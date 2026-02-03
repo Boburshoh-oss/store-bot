@@ -26,7 +26,8 @@ class StockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def low_stock(self, request):
         """Kam qoldiqlar / Low stock items"""
-        low_stocks = [stock for stock in self.get_queryset() if stock.is_low_stock]
+        from django.db.models import F
+        low_stocks = self.get_queryset().filter(quantity__lte=F('min_quantity'))
         serializer = self.get_serializer(low_stocks, many=True)
         return Response(serializer.data)
 
