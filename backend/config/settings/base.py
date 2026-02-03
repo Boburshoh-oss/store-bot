@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     "drf_standardized_errors",
     # my apps
     # 'apps.managers',
+    'apps.products',
+    'apps.inventory',
+    'apps.bot',
 ]
 
 SITE_ID = 1
