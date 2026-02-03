@@ -36,6 +36,11 @@ class StockMovementSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
     
     def get_stock_info(self, obj):
+        """
+        Get stock information for the movement.
+        Note: This method requires the queryset to use select_related('stock__product', 'stock__warehouse')
+        to avoid N+1 queries. This is already configured in StockMovementViewSet.
+        """
         return {
             'product': obj.stock.product.name,
             'warehouse': obj.stock.warehouse.name,

@@ -34,7 +34,7 @@ async def products_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    products = Product.objects.filter(is_active=True)[:10]
+    products = Product.objects.filter(is_active=True).select_related('category')[:10]
     
     if not products:
         await query.edit_message_text("Mahsulotlar topilmadi / No products found")
